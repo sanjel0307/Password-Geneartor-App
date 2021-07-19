@@ -17,8 +17,27 @@ WindowManager:
                 app.root.current = "creatingPassword"
 
         Button:
-            text: "PasswordList"
+            text: "Password List"
 
 
 <SecondWindow>
     name: "creatingPassword"
+
+    GridLayout:
+        
+   
+        rows: 3
+
+        Label:
+            id: currentPassword
+            text: "password"
+
+        Button:
+            text: "Generate!"
+            on_release:
+                root.updatePassword()
+
+        Button: 
+            text: "Back" 
+            on_release: 
+                app.root.current = "menu"

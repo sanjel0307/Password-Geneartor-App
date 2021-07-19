@@ -8,14 +8,36 @@ from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen 
-
+import random 
+import string
 
 class MainWindow(Screen):
     pass
 
 
 class SecondWindow(Screen):
-    pass
+
+    def updatePassword(self): 
+        current = self.ids.currentPassword
+        current.text = self.generatePassword()
+
+
+
+    def generatePassword(self):
+        lower = string.ascii_lowercase
+        upper = string.ascii_uppercase
+        num = string.digits
+        symbols = string.punctuation
+        All = lower + upper + num + symbols 
+        # Store all possible strings in one large string 
+
+        temp = random.sample(All, random.randint(8,16))
+        password = "".join(temp)
+
+        return password
+
+
+
 
 class WindowManager(ScreenManager):
     pass
