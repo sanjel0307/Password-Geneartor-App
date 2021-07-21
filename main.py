@@ -5,23 +5,23 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput 
 from kivy.uix.button import Button 
 from kivy.uix.widget import Widget 
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, StringProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen 
 import random 
 import string
 
-class MainWindow(Screen):
+saves = []
+
+class Menu(Screen):
     pass
 
 
-class SecondWindow(Screen):
+class passwordCreator(Screen):
 
     def updatePassword(self): 
         current = self.ids.currentPassword
         current.text = self.generatePassword()
-
-
 
     def generatePassword(self):
         lower = string.ascii_lowercase
@@ -35,10 +35,27 @@ class SecondWindow(Screen):
         password = "".join(temp)
 
         return password
+    
+    def getPassword(self): 
+        print("test")
+        return self.ids.currentPassword.text
+
+    
 
 
 
+class savingScreen(Screen):
+    
+    current_password = StringProperty('')
+    
+    def on_enter(self, *args):
+        self.current_password = self.manager.get_screen('creatingPassword').ids.currentPassword.text
+    
+    def save(self):
+        saves.append([self.current_password, self.ids.passwordDescription.text])
+        print(saves)
 
+    
 class WindowManager(ScreenManager):
     pass
 

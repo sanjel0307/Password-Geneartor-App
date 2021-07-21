@@ -1,10 +1,11 @@
 
 WindowManager:
-    MainWindow:
-    SecondWindow:
+    Menu:
+    passwordCreator:
+    savingScreen: 
+    
 
-
-<MainWindow>
+<Menu>
     name: "menu"
 
     GridLayout:
@@ -15,29 +16,67 @@ WindowManager:
             text:"Create Password"
             on_release: 
                 app.root.current = "creatingPassword"
+                root.manager.get_screen('creatingPassword').ids.currentPassword.text = ""
 
         Button:
             text: "Password List"
 
 
-<SecondWindow>
+<passwordCreator>
     name: "creatingPassword"
 
     GridLayout:
-        
-   
+        size: root.size
         rows: 3
-
+        
         Label:
             id: currentPassword
-            text: "password"
+            text: root.getPassword()
 
         Button:
             text: "Generate!"
             on_release:
                 root.updatePassword()
 
-        Button: 
-            text: "Back" 
-            on_release: 
+        GridLayout: 
+            cols: 3
+
+            Button: 
+                text: "Save"
+                on_release:
+                    app.root.current = "saving"
+            
+
+            Button: 
+                text: "Back" 
+                on_release: 
+                    app.root.current = "menu"
+
+<savingScreen> 
+    name: "saving" 
+
+    GridLayout:
+        size:root.size
+        rows: 2 
+
+        GridLayout:
+            size:root.size 
+            cols: 2
+
+            Label:
+                text: root.current_password
+            
+            TextInput:
+                id: passwordDescription
+                text: "What application is password for..."
+                multiline: False
+        
+        Button:
+            text: "SAVE"
+            on_release:
+                root.save()
                 app.root.current = "menu"
+                passwordDescription.text = "What application is password for..."
+            
+
+
