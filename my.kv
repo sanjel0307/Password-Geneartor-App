@@ -3,6 +3,7 @@ WindowManager:
     Menu:
     passwordCreator:
     savingScreen: 
+    passwordList: 
     
 
 <Menu>
@@ -20,6 +21,10 @@ WindowManager:
 
         Button:
             text: "Password List"
+            on_release:
+                app.root.current = "list"
+                root.manager.get_screen('list').ids.lister.update_data()
+                
 
 
 <passwordCreator>
@@ -69,6 +74,7 @@ WindowManager:
             TextInput:
                 id: passwordDescription
                 text: "What application is password for..."
+                on_touch_down: if self.collide_point(*args[1].pos): self.text = ""
                 multiline: False
         
         Button:
@@ -77,6 +83,26 @@ WindowManager:
                 root.save()
                 app.root.current = "menu"
                 passwordDescription.text = "What application is password for..."
+
             
+<passwordList> 
+    name: "list" 
+    GridLayout:
+        rows: 2
 
+        ExampleViewer:
+            id: lister
+            viewclass: "Button"
+            orientation: "vertical"
+            RecycleBoxLayout:
+                default_size: None, 100 
+                default_size_hint: 1, None 
+                size_hint_y: None 
+                height: self.minimum_height 
+                orientation: "vertical"
+        Button:
 
+            text:"Back"
+            on_release:
+                app.root.current = "menu"
+    

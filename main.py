@@ -8,6 +8,8 @@ from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen 
+from kivy.uix.recycleview import RecycleView 
+
 import random 
 import string
 
@@ -52,8 +54,31 @@ class savingScreen(Screen):
         self.current_password = self.manager.get_screen('creatingPassword').ids.currentPassword.text
     
     def save(self):
-        saves.append([self.current_password, self.ids.passwordDescription.text])
-        print(saves)
+        password = self.current_password
+        description = self.ids.passwordDescription.text
+        placeholder = "Password:  {password}    ||    Description: {description}".format(password = password, description = description)
+        saves.append(placeholder)
+    
+    def get_data_index(self):
+        return self.parent.get_view_index_at(self.center)
+    
+    def on_release(self):
+        print(self.get_data_index())
+    
+        
+
+
+class ExampleViewer(RecycleView):
+    def __init__(self, **kwargs):
+        super(ExampleViewer, self).__init__(**kwargs)
+        self.data = [{'text': str(x)} for x in saves]
+    
+    def update_data(self):
+        self.data = [{'text': str(x)} for x in saves]
+
+class passwordList(Screen):
+    pass
+
 
     
 class WindowManager(ScreenManager):
