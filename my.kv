@@ -1,9 +1,9 @@
 
 WindowManager:
     Menu:
-    passwordCreator:
-    savingScreen: 
-    passwordList: 
+    PasswordCreator:
+    SavingScreen: 
+    PasswordList: 
     
 
 <Menu>
@@ -17,13 +17,13 @@ WindowManager:
             text:"Create Password"
             on_release: 
                 app.root.current = "creatingPassword"
-                root.manager.get_screen('creatingPassword').ids.currentPassword.text = ""
+                root.manager.get_screen('creatingPassword').ids.current_password.text = ""
 
         Button:
             text: "Password List"
             on_release:
                 app.root.current = "list"
-                root.manager.get_screen('list').ids.lister.update_data()
+                root.manager.get_screen('list').ids.password_list_id.update_data()
                 
 
 
@@ -35,13 +35,13 @@ WindowManager:
         rows: 3
         
         Label:
-            id: currentPassword
-            text: root.getPassword()
+            id: current_password
+            text: root.get_password()
 
         Button:
             text: "Generate!"
             on_release:
-                root.updatePassword()
+                root.update_password()
 
         GridLayout: 
             cols: 3
@@ -69,7 +69,7 @@ WindowManager:
             cols: 2
 
             Label:
-                text: root.current_password
+                text: root.current_updated_password
             
             TextInput:
                 id: passwordDescription
@@ -91,7 +91,7 @@ WindowManager:
         rows: 2
 
         ExampleViewer:
-            id: lister
+            id: password_list_id
             viewclass: "Button"
             orientation: "vertical"
             RecycleBoxLayout:

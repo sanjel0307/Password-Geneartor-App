@@ -9,7 +9,6 @@ from kivy.properties import ObjectProperty, StringProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen 
 from kivy.uix.recycleview import RecycleView 
-
 import random 
 import string
 
@@ -18,43 +17,37 @@ saves = []
 class Menu(Screen):
     pass
 
+class PasswordCreator(Screen):
 
-class passwordCreator(Screen):
+    def update_password(self): 
+        current = self.ids.current_password
+        current.text = self.generate_password()
 
-    def updatePassword(self): 
-        current = self.ids.currentPassword
-        current.text = self.generatePassword()
-
-    def generatePassword(self):
+    def generate_password(self):
         lower = string.ascii_lowercase
         upper = string.ascii_uppercase
         num = string.digits
         symbols = string.punctuation
-        All = lower + upper + num + symbols 
-        # Store all possible strings in one large string 
+        all_strings = lower + upper + num + symbols  # Store all possible strings in one large string 
 
-        temp = random.sample(All, random.randint(8,16))
+        temp = random.sample(all_strings, random.randint(8,16))
         password = "".join(temp)
 
         return password
     
-    def getPassword(self): 
+    def get_password(self): 
         print("test")
-        return self.ids.currentPassword.text
+        return self.ids.current_password.text
 
+class SavingScreen(Screen):
     
-
-
-
-class savingScreen(Screen):
-    
-    current_password = StringProperty('')
+    current_updated_password = StringProperty('')
     
     def on_enter(self, *args):
-        self.current_password = self.manager.get_screen('creatingPassword').ids.currentPassword.text
+        self.current_updated_password = self.manager.get_screen('creatingPassword').ids.current_password.text
     
     def save(self):
-        password = self.current_password
+        password = self.current_updated_password
         description = self.ids.passwordDescription.text
         placeholder = "Password:  {password}    ||    Description: {description}".format(password = password, description = description)
         saves.append(placeholder)
@@ -64,10 +57,7 @@ class savingScreen(Screen):
     
     def on_release(self):
         print(self.get_data_index())
-    
-        
-
-
+           
 class ExampleViewer(RecycleView):
     def __init__(self, **kwargs):
         super(ExampleViewer, self).__init__(**kwargs)
@@ -76,14 +66,11 @@ class ExampleViewer(RecycleView):
     def update_data(self):
         self.data = [{'text': str(x)} for x in saves]
 
-class passwordList(Screen):
+class PasswordList(Screen):
     pass
 
-
-    
 class WindowManager(ScreenManager):
     pass
-
 
 kv = Builder.load_file("my.kv")
 
